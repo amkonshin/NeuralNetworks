@@ -1,0 +1,1999 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "metodich3_colab_3_07.ipynb",
+      "provenance": [],
+      "collapsed_sections": [],
+      "toc_visible": true
+    },
+    "kernelspec": {
+      "display_name": "Python 3",
+      "language": "python",
+      "name": "python3"
+    },
+    "language_info": {
+      "codemirror_mode": {
+        "name": "ipython",
+        "version": 3
+      },
+      "file_extension": ".py",
+      "mimetype": "text/x-python",
+      "name": "python",
+      "nbconvert_exporter": "python",
+      "pygments_lexer": "ipython3",
+      "version": "3.7.6"
+    },
+    "accelerator": "GPU"
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "j9uRd98UFzPL",
+        "colab_type": "text"
+      },
+      "source": [
+        "# Введение в искусственные нейронные сети\n",
+        "# Урок 3. TensorFlow"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "k3iOZn2wFzPQ",
+        "colab_type": "text"
+      },
+      "source": [
+        "## Содержание методического пособия:\n",
+        "\n",
+        "\n",
+        "<ol>\n",
+        "<li>Что такое TensorFlow</li>\n",
+        "<li>Основы синтаксиса TensorFlow</li>\n",
+        "<li>Пример нейросети на TensorFlow</li>\n",
+        "</ol>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Sx3Su3u6FzPS",
+        "colab_type": "text"
+      },
+      "source": [
+        "## Что такое TensorFlow\n",
+        "\n",
+        "TensorFlow - это фреймворк для создания ML моделей. TensorFlow предназначен в первую очередь для Deep Learning, т.е. создания современных нейросетей. Однако в TensorFlow также есть поддержка некоторых классических ML алгоритмов: K-means clustering, Random Forests, Support Vector Machines, Gaussian Mixture Model clustering, Linear/logistic regression.\n",
+        "\n",
+        "TensorFlow выпустила компания Google в 2015. TensorFlow - это opensource проект. На данный момент это один из основных инструментов для создания нейросетей в рабочих целях. TensorFlow позволяет создавать нейронные сети как для кластеров из большого количества вычислительных устройств, так и для устройств с относительно небольшой вычислитей мощностью, таких как смартфоны и одноплатные компьютеры.\n",
+        "\n",
+        "TensorFlow применяется самой компанией Google для ее поиска, почты, переводчика, распознования голоса, внутренних нужд наподобие мониторинга оборудования. TensorFlow используется различными компаниями для различных проектов связанных с компьютерным зрением, решением задач ранжирования и т.д.\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "mBqyxNwdFzPU",
+        "colab_type": "text"
+      },
+      "source": [
+        "## Основы синтаксиса TensorFlow\n",
+        "\n",
+        "Процесс создания нейросети на TensorFlow схож с разобранным нами процессом обучения нейросети на Keras. Отличее здесь в том, что здесь нам нужно прописать больше деталей в коде. \n",
+        "\n",
+        "Название TensorFlow означает поток тензоров. Тензоры - это массивы. Данные в компьютере предствлены часто в виде массивах и работа с этими массивами подразумевает их преобразования. Преобразования осуществляются через, к примеру, математические операции. Работа TensorFlow складывается из цепочки преобразований тензоров, т.е. данных. Сами операции осуществляющие преобразование данных представлены в TensorFlow в виде графов. Особенностью TensorFlow версии 1 является то, что сначала необходимо декларировать переменные и вычисления, которые будут совершенны над ними, а потом уже непосредственно запускать работу над данными. "
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "NTDIFFhhFzPW",
+        "colab_type": "text"
+      },
+      "source": [
+        "Давайте рассмотрим базовые вещи в синтаксисе Tensorflow 2."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "BuAYrRxLFzPY",
+        "colab_type": "text"
+      },
+      "source": [
+        "Выведем строку Hello world, а также версию tensorflow"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "A4Hcl_IoHv7n",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "!pip install --upgrade pip\n",
+        "!pip install tensorflow\n",
+        "!pip install tf-nightly"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ad84hsn2Gwhi",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "%tensorflow_version 2.x"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "75BVCTdbFzPa",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "import tensorflow as tf\n",
+        "print(tf.__version__)\n",
+        "msg = tf.constant('TensorFlow 2.0 Hello World')\n",
+        "tf.print(msg)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "S4ZN0rdqFzPh",
+        "colab_type": "text"
+      },
+      "source": [
+        "Пример создания тензора - "
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "VATG0L6IFzPj",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "A = tf.constant([[3, 2], \n",
+        "                 [5, 2]])\n",
+        "\n",
+        "print(A)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "van47kdAFzPp",
+        "colab_type": "text"
+      },
+      "source": [
+        "Приме сложения тензеров - "
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "wYwJYGSvFzPr",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "B = tf.constant([[9, 5], \n",
+        "                 [1, 3]])\n",
+        "\n",
+        "AB = tf.concat(values=[A, B], axis=1)\n",
+        "print(AB.numpy())"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "XTfjbLKLFzPx",
+        "colab_type": "text"
+      },
+      "source": [
+        "Пример изменения размерности тензора - "
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Yk_mB4qGFzPz",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "tensor = tf.constant([[3, 2], \n",
+        "                      [5, 2], \n",
+        "                      [9, 5], \n",
+        "                      [1, 3]])\n",
+        "\n",
+        "resh_tensor = tf.reshape(tensor = tensor, shape = [1, 8]) \n",
+        "\n",
+        "print(f'BEFORE {tensor.numpy()}')\n",
+        "print(f'AFTER {resh_tensor.numpy()}')"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "txp4OBMXFzP6",
+        "colab_type": "text"
+      },
+      "source": [
+        "Пример умножения матриц, одной из самых частых операций в машинном обучении - "
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "2VM7TqHlFzP8",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "A = tf.constant([[3, 7], \n",
+        "                 [1, 9]])\n",
+        "\n",
+        "\n",
+        "B = tf.constant([[10, 10],\n",
+        "                 [1000, 1000]])\n",
+        "\n",
+        "AB = tf.multiply(A, B)\n",
+        "print(AB)\n"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "qCCRCUpj9aPF",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "x = tf.matmul([[5]], [[2, 3]])\n",
+        "print(x)\n",
+        "print(x.shape)\n",
+        "print(x.dtype)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "5zd1GMQ0-o80",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "import numpy as np\n",
+        "\n",
+        "ndarray = np.ones([3, 3])\n",
+        "\n",
+        "print(\"превратим numpy arrays в Tensors \")\n",
+        "tensor = tf.multiply(ndarray, 42)\n",
+        "print(tensor)\n",
+        "\n",
+        "\n",
+        "print(\"добавим к тензору 1 \")\n",
+        "print(np.add(tensor, 1))\n",
+        "\n",
+        "print(\" .numpy() превратим тензор в  numpy array\")\n",
+        "print(tensor.numpy())"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "iwFVgO3t_Ghj",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "x = tf.random.uniform([3, 3])\n",
+        "\n",
+        "print(\"есть ли доступные GPU: \"),\n",
+        "print(tf.config.experimental.list_physical_devices(\"GPU\"))\n",
+        "\n",
+        "print(\"тензор на GPU #0:  \"),\n",
+        "print(x.device.endswith('GPU:0'))\n"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "oajro_Ip_hap",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "import time\n",
+        "\n",
+        "def time_matmul(x):\n",
+        "  start = time.time()\n",
+        "  for loop in range(10):\n",
+        "    tf.matmul(x, x)\n",
+        "\n",
+        "  result = time.time()-start\n",
+        "\n",
+        "  print(\"10 циклов: {:0.2f}ms\".format(1000*result))\n",
+        "\n",
+        "# исполнение CPU\n",
+        "print(\" CPU работает:\")\n",
+        "with tf.device(\"CPU:0\"):\n",
+        "  x = tf.random.uniform([1000, 1000])\n",
+        "  assert x.device.endswith(\"CPU:0\")\n",
+        "  time_matmul(x)\n",
+        "\n",
+        "# исполнение на GPU #0 , если доступен\n",
+        "if tf.config.experimental.list_physical_devices(\"GPU\"):\n",
+        "  print(\" какой GPU:\")\n",
+        "  with tf.device(\"GPU:0\"): # или GPU:1 , для 2х GPU, GPU:2 для 3х  и т.д.\n",
+        "    x = tf.random.uniform([1000, 1000])\n",
+        "    assert x.device.endswith(\"GPU:0\")\n",
+        "    time_matmul(x)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "ya0ZTsC3DNBF",
+        "colab_type": "text"
+      },
+      "source": [
+        "В отличие от графического процессора, использование TPU требует явного подключения к работнику TPU. Поэтому необходимо настроить свое обучение и определение логического вывода, чтобы наблюдать ускорение\n",
+        "\n",
+        "пример работы с TPU на будущее https://colab.research.google.com/github/tensorflow/tpu/blob/master/tools/colab/shakespeare_with_tpu_and_keras.ipynb"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Tc9NTP1_FzQC",
+        "colab_type": "text"
+      },
+      "source": [
+        "Функции tensorflow призваны ускорить вычисления, давайте посмотрим на следующий пример - "
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "qBUSq3dWHUjF",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "from tensorflow.keras.datasets import mnist\n",
+        "\n",
+        "\n",
+        "(train_images,train_labels),(test_images,testn_labels)=mnist.load_data()\n",
+        "\n",
+        "# Нормализация.\n",
+        "train_images = (train_images / 255) * 2 - 1\n",
+        "test_images = (test_images / 255) * 2 - 1\n",
+        "\n",
+        "# векторизация.\n",
+        "train_images = train_images.reshape((-1, 784))\n",
+        "test_images = test_images.reshape((-1, 784))\n",
+        "\n",
+        "print(train_images.shape) # (60000, 784)\n",
+        "print(test_images.shape)  # (10000, 784)\n",
+        "\n"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ozb2tTqNIBzX",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "from tensorflow.keras.models import Sequential\n",
+        "from tensorflow.keras.layers import Dense\n",
+        "from tensorflow.keras.utils import to_categorical"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "NInsePV5QKs4",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "import matplotlib.pyplot as plt\n"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "PIIwUIB_GWzd",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "bigger_model = Sequential([\n",
+        "    Dense(512, activation='relu', input_shape=(784,)),\n",
+        "    Dense(512, activation='linear'),\n",
+        "    Dense(10, activation='softmax')\n",
+        "])\n",
+        "\n",
+        "bigger_model.compile(optimizer='adam',\n",
+        "                     loss='categorical_crossentropy',\n",
+        "                     metrics=['accuracy'])\n",
+        "\n",
+        "bigger_model.summary()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "UmAqbArVIkl9",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "bigger_history = bigger_model.fit( train_images, to_categorical(train_labels,10),\n",
+        "  epochs=5,\n",
+        "  batch_size=2, validation_split=0.2\n",
+        ")\n"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "8RzpMwruRFdS",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "plt.plot(bigger_history.history['val_accuracy'] ,label='val')\n",
+        "plt.plot(bigger_history.history['accuracy'] ,label='train')\n",
+        "plt.legend()\n",
+        "plt.xlabel('epoch')\n",
+        "plt.ylabel('accuracy')\n",
+        "plt.title('точность сети от эпох')\n",
+        "plt.show()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "2Zm-TPIKO-Y_",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "bigger_model2 = Sequential([\n",
+        "    Dense(512, activation='relu', input_shape=(784,)),\n",
+        "    Dense(512, activation='linear'),\n",
+        "    Dense(10, activation='softmax')\n",
+        "])\n",
+        "\n",
+        "bigger_model2.compile(optimizer='adam',\n",
+        "                     loss='categorical_crossentropy',\n",
+        "                     metrics=['accuracy'])\n",
+        "\n",
+        "bigger_history2 = bigger_model2.fit( train_images, to_categorical(train_labels,10),\n",
+        "  epochs=5,\n",
+        "  batch_size=2000, validation_split=0.2\n",
+        ")"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "PhX7tQdBSOI5",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "plt.plot(bigger_history2.history['val_accuracy'] ,label='val')\n",
+        "plt.plot(bigger_history2.history['accuracy'] ,label='train')\n",
+        "plt.legend()\n",
+        "plt.xlabel('epoch')\n",
+        "plt.ylabel('accuracy')\n",
+        "plt.title('точность сети от эпох')\n",
+        "plt.show()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "o7Q0qQIxPg0q",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "bigger_history3 = bigger_model2.fit( train_images, to_categorical(train_labels,10),\n",
+        "  epochs=5,\n",
+        "  batch_size=2000, validation_split=0.2\n",
+        ")"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Rv6N5eMcRAQ_",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "plt.plot(bigger_history3.history['val_accuracy'] ,label='val')\n",
+        "plt.plot(bigger_history3.history['accuracy'] ,label='train')\n",
+        "plt.legend()\n",
+        "plt.xlabel('epoch')\n",
+        "plt.ylabel('accuracy')\n",
+        "plt.title('точность сети от эпох')\n",
+        "plt.show()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "bzdqOaHfPnqU",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "bigger_history3 = bigger_model2.fit( train_images, to_categorical(train_labels,10),\n",
+        "  epochs=15,\n",
+        "  batch_size=2000, validation_split=0.2\n",
+        ")"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "-YIEb3PpQGLF",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "plt.plot(bigger_history3.history['val_accuracy'] ,label='val')\n",
+        "plt.plot(bigger_history3.history['accuracy'] ,label='train')\n",
+        "plt.legend()\n",
+        "plt.xlabel('epoch')\n",
+        "plt.ylabel('accuracy')\n",
+        "plt.title('точность сети от эпох')\n",
+        "plt.show()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "51b163fhReiz",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "for i in [0,1,2,3,4]:\n",
+        "  bigger_model4 = Sequential([\n",
+        "                              Dense(512, activation='relu', input_shape=(784,)),\n",
+        "                              Dense(512, activation='linear'),\n",
+        "                              Dense(10, activation='softmax')\n",
+        "                              ])\n",
+        "\n",
+        "  bigger_model4.compile(optimizer='sgd',\n",
+        "                        loss='categorical_crossentropy',\n",
+        "                        metrics=['accuracy'])\n",
+        "\n",
+        "  bigger_history4 = bigger_model4.fit( train_images, to_categorical(train_labels,10),epochs=5,\n",
+        "                                        batch_size=20000, validation_split=0.2, verbose = 0\n",
+        "                                      )\n",
+        "  plt.plot(bigger_history4.history['val_accuracy'],'.' )\n",
+        "  plt.plot(bigger_history4.history['accuracy'] )\n",
+        "plt.plot(bigger_history4.history['val_accuracy'],'.' ,label='val')\n",
+        "plt.plot(bigger_history4.history['accuracy'] ,label='train')\n",
+        "plt.legend()\n",
+        "plt.xlabel('epoch')\n",
+        "plt.ylabel('accuracy')\n",
+        "plt.title('точность сети от эпох')\n",
+        "plt.show()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "5g3px8aXXse6",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "from tensorflow.keras.optimizers import Adam"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "yjjhpVRlXn04",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "for i in [0,1]:\n",
+        "  bigger_model4 = Sequential([\n",
+        "                              Dense(512, activation='relu', input_shape=(784,)),\n",
+        "                              Dense(512, activation='linear'),\n",
+        "                              Dense(1, activation='sigmoid')\n",
+        "                              ])\n",
+        "\n",
+        "  bigger_model4.compile(optimizer= Adam(learning_rate=0.0001, beta_1=0.89) ,\n",
+        "                        loss='binary_crossentropy',\n",
+        "                        metrics=['accuracy'])\n",
+        "\n",
+        "  bigger_history4 = bigger_model4.fit( train_images, to_categorical(train_labels,10)[:,0],epochs=5,\n",
+        "                                        batch_size=200, validation_split=0.2, verbose = 0\n",
+        "                                      )\n",
+        "  plt.plot(bigger_history4.history['val_accuracy'],'.' )\n",
+        "  plt.plot(bigger_history4.history['accuracy'] )\n",
+        "plt.plot(bigger_history4.history['val_accuracy'],'.' ,label='val')\n",
+        "plt.plot(bigger_history4.history['accuracy'] ,label='train')\n",
+        "plt.legend()\n",
+        "plt.xlabel('epoch')\n",
+        "plt.ylabel('accuracy')\n",
+        "plt.title('точность сети от эпох')\n",
+        "plt.show()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "colab_type": "text",
+        "id": "jYysdyb-CaWM"
+      },
+      "source": [
+        "# Классификация изображений одежды"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "colab_type": "text",
+        "id": "FbVhjPpzn6BM"
+      },
+      "source": [
+        "Давайте разберем использование tensorflow 2 на примере датасета с одеждой. В это датасете будут находиться маленькие изображения на белом фоне, такие как кросовки, футболки и прочее.\n",
+        "\n",
+        "В данном случае мы будем использовать High API от TensorFlow"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "dzLKpmZICaWN",
+        "colab": {}
+      },
+      "source": [
+        "from __future__ import absolute_import, division, print_function, unicode_literals\n",
+        "\n",
+        "# TensorFlow and tf.keras\n",
+        "\n",
+        "from tensorflow import keras\n",
+        "\n",
+        "# Helper libraries\n",
+        "import numpy as np\n",
+        "import matplotlib.pyplot as plt\n",
+        "\n",
+        "print(tf.__version__)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "colab_type": "text",
+        "id": "yR0EdgrLCaWR"
+      },
+      "source": [
+        "## Импортируем Fashion MNIST датасет"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "colab_type": "text",
+        "id": "DLdCchMdCaWQ"
+      },
+      "source": [
+        "Мы будет использовать следующий датасет -  [Fashion MNIST](https://github.com/zalandoresearch/fashion-mnist) Этот датасет содержит 70,000 черно-белых изображений в 10 категориях. Изображения имеют разрешение 28x28 пикселей.\n",
+        "\n",
+        "<table>\n",
+        "  <tr><td>\n",
+        "    <img src=\"https://tensorflow.org/images/fashion-mnist-sprite.png\"\n",
+        "         alt=\"Fashion MNIST sprite\"  width=\"600\">\n",
+        "  </td></tr>\n",
+        "  <tr><td align=\"center\">\n",
+        "    <b>Figure 1.</b> <a href=\"https://github.com/zalandoresearch/fashion-mnist\">Fashion-MNIST samples</a> (by Zalando, MIT License).<br/>&nbsp;\n",
+        "  </td></tr>\n",
+        "</table>\n",
+        "\n",
+        "Долгое время в машинном обучение для программ Hello world использовался датасет MNIST с рукописными цифрами. Данный датасет призван несколько усложнить задачу распознования но также подходит в качестве программы Hello world.\n",
+        "\n",
+        "В этом датасете 60 000 тренировочных изображений и 10 000 тестовых."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "7MqDQO0KCaWS",
+        "colab": {}
+      },
+      "source": [
+        "fashion_mnist = keras.datasets.fashion_mnist\n",
+        "\n",
+        "(train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "colab_type": "text",
+        "id": "t9FDsUlxCaWW"
+      },
+      "source": [
+        "Датасет содержит следующие классы:\n",
+        "\n",
+        "<table>\n",
+        "  <tr>\n",
+        "    <th>Label</th>\n",
+        "    <th>Class</th>\n",
+        "  </tr>\n",
+        "  <tr>\n",
+        "    <td>0</td>\n",
+        "    <td>T-shirt/top</td>\n",
+        "  </tr>\n",
+        "  <tr>\n",
+        "    <td>1</td>\n",
+        "    <td>Trouser</td>\n",
+        "  </tr>\n",
+        "    <tr>\n",
+        "    <td>2</td>\n",
+        "    <td>Pullover</td>\n",
+        "  </tr>\n",
+        "    <tr>\n",
+        "    <td>3</td>\n",
+        "    <td>Dress</td>\n",
+        "  </tr>\n",
+        "    <tr>\n",
+        "    <td>4</td>\n",
+        "    <td>Coat</td>\n",
+        "  </tr>\n",
+        "    <tr>\n",
+        "    <td>5</td>\n",
+        "    <td>Sandal</td>\n",
+        "  </tr>\n",
+        "    <tr>\n",
+        "    <td>6</td>\n",
+        "    <td>Shirt</td>\n",
+        "  </tr>\n",
+        "    <tr>\n",
+        "    <td>7</td>\n",
+        "    <td>Sneaker</td>\n",
+        "  </tr>\n",
+        "    <tr>\n",
+        "    <td>8</td>\n",
+        "    <td>Bag</td>\n",
+        "  </tr>\n",
+        "    <tr>\n",
+        "    <td>9</td>\n",
+        "    <td>Ankle boot</td>\n",
+        "  </tr>\n",
+        "</table>\n",
+        "\n",
+        "Каждому классу обозначенному цифрой мы можем присвоить текстовое значение -"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "IjnLH5S2CaWx",
+        "colab": {}
+      },
+      "source": [
+        "class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',\n",
+        "               'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "colab_type": "text",
+        "id": "Brm0b_KACaWX"
+      },
+      "source": [
+        "## Анализ датасета \n",
+        "\n",
+        "Давайте посмотрим структуры полученного массива данных:"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "zW5k_xz1CaWX",
+        "colab": {}
+      },
+      "source": [
+        "train_images.shape"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "TRFYHB2mCaWb",
+        "colab": {}
+      },
+      "source": [
+        "len(train_labels)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "XKnCTHz4CaWg",
+        "colab": {}
+      },
+      "source": [
+        "train_labels"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "colab_type": "text",
+        "id": "TMPI88iZpO2T"
+      },
+      "source": [
+        "Проанализируем тестовую выборку:"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "2KFnYlcwCaWl",
+        "colab": {}
+      },
+      "source": [
+        "test_images.shape"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "iJmPr5-ACaWn",
+        "colab": {}
+      },
+      "source": [
+        "len(test_labels)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "colab_type": "text",
+        "id": "ES6uQoLKCaWr"
+      },
+      "source": [
+        "## Preprocess the data\n",
+        "\n",
+        "Давайте взглянем на конкретный пример изображений с помощью matplotlib:"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "m4VEw8Ud9Quh",
+        "colab": {}
+      },
+      "source": [
+        "plt.figure()\n",
+        "plt.imshow(train_images[0])\n",
+        "plt.colorbar()\n",
+        "plt.grid(False)\n",
+        "plt.show()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "colab_type": "text",
+        "id": "Wz7l27Lz9S1P"
+      },
+      "source": [
+        "Для процесса обучения нейронной сети нам важно перевести данные из диапазона от 0 до 255 в диапазон от 0 до 1:"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "bW5WzIPlCaWv",
+        "colab": {}
+      },
+      "source": [
+        "train_images = train_images / 255.0\n",
+        "\n",
+        "test_images = test_images / 255.0"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "colab_type": "text",
+        "id": "Ee638AlnCaWz"
+      },
+      "source": [
+        "Посмотрим первые 25 изображений:"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "oZTImqg_CaW1",
+        "colab": {}
+      },
+      "source": [
+        "plt.figure(figsize=(10,10))\n",
+        "for i in range(25):\n",
+        "    plt.subplot(5,5,i+1)\n",
+        "    plt.xticks([])\n",
+        "    plt.yticks([])\n",
+        "    plt.grid(False)\n",
+        "    plt.imshow(train_images[i], cmap=plt.cm.binary)\n",
+        "    plt.xlabel(class_names[train_labels[i]])\n",
+        "plt.show()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "colab_type": "text",
+        "id": "59veuiEZCaW4"
+      },
+      "source": [
+        "## Построение модели\n",
+        "\n",
+        "Построение нейронной сети подразумевает конфигурацию ее слоев и последующую компиляцию."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "colab_type": "text",
+        "id": "Gxg1XGm0eOBy"
+      },
+      "source": [
+        "### Определение слоев\n",
+        "\n",
+        "Давайте создадим 3 слоя нейронной сети с помощью функционала Keras.layers"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "9ODch-OFCaW4",
+        "colab": {}
+      },
+      "source": [
+        "model = keras.Sequential([\n",
+        "    keras.layers.Flatten(input_shape=(28, 28)),\n",
+        "    keras.layers.Dense(128, activation='relu'),\n",
+        "    keras.layers.Dense(10)\n",
+        "])"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "pCb24tU45MXG",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "model.summary()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "colab_type": "text",
+        "id": "gut8A_7rCaW6"
+      },
+      "source": [
+        "Первый слой, `tf.keras.layers.Flatten`, трасформирует двумерный массив на входе в одномерный массив.\n",
+        "\n",
+        "Получившиеся 784(28 x 28) входных нейрона присоединяем к полносвязному слою из 128 нейронов , которые будут использовать функцию активации relu. В выходном слое будет 10 нейронов, по числу классов, которые он должен предсказывать. В нем будет использоваться функция активации softmax и он будет давать предсказание от 0 до 1, где 1 это стопроцентная вероятность.\n",
+        "\n",
+        "### Компиляция модели\n",
+        "\n",
+        "Давайте вспомним ключевые понятия, которые нам понадобяться при компиляции:\n",
+        "\n",
+        "* *Loss function* — меряет как точно работает нейросеть.\n",
+        "* *Optimizer* — определяет способ корректировки весов.\n",
+        "* *Metrics* — определяет за какие характеристики будут отражаться в процессе обучения."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "Lhan11blCaW7",
+        "colab": {}
+      },
+      "source": [
+        "model.compile(optimizer='adam',\n",
+        "              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),\n",
+        "              metrics=['accuracy'])"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "colab_type": "text",
+        "id": "qKF6uW-BCaW-"
+      },
+      "source": [
+        "## Тренировка модели\n",
+        "\n",
+        "Здесь все стандартно - данные передаются в нейросеть и сопоставляются изображения и лейблы.\n",
+        "\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "colab_type": "text",
+        "id": "Z4P4zIV7E28Z"
+      },
+      "source": [
+        "### Передача данных в модель\n",
+        "\n",
+        "Команда непосредственно запускающая процесс обучения называется - `model.fit`:"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "xvwvpA64CaW_",
+        "colab": {}
+      },
+      "source": [
+        "model.fit(train_images, train_labels, epochs=3, batch_size=100)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "VflXLEeECaXC",
+        "colab": {}
+      },
+      "source": [
+        "test_loss, test_acc = model.evaluate(test_images,  test_labels, verbose=2)\n",
+        "\n",
+        "print('\\nTest accuracy:', test_acc)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "ThiOOMngFzRw",
+        "colab_type": "text"
+      },
+      "source": [
+        "В выводе выше мы следим за точностью в процессе обучения, проверяем точность на тестовых данных и меняем параметры нейросети если точность на тестовых данных нас не устраивает."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "colab_type": "text",
+        "id": "v-PyD1SYE28q"
+      },
+      "source": [
+        "### Предсказания нейросети\n",
+        "\n",
+        "Команды ниже позволяют проверить работу натренированной ранее нейросети - "
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "DnfNA0CrQLSD",
+        "colab": {}
+      },
+      "source": [
+        "probability_model = tf.keras.Sequential([model, \n",
+        "                                         tf.keras.layers.Softmax()])"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "Gl91RPhdCaXI",
+        "colab": {}
+      },
+      "source": [
+        "predictions = probability_model.predict(test_images)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "3DmJEUinCaXK",
+        "colab": {}
+      },
+      "source": [
+        "predictions[0]"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "qsqenuPnCaXO",
+        "colab": {}
+      },
+      "source": [
+        "np.argmax(predictions[0])"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "Sd7Pgsu6CaXP",
+        "colab": {}
+      },
+      "source": [
+        "test_labels[0]"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "DvYmmrpIy6Y1",
+        "colab": {}
+      },
+      "source": [
+        "def plot_image(i, predictions_array, true_label, img):\n",
+        "  predictions_array, true_label, img = predictions_array, true_label[i], img[i]\n",
+        "  plt.grid(False)\n",
+        "  plt.xticks([])\n",
+        "  plt.yticks([])\n",
+        "\n",
+        "  plt.imshow(img, cmap=plt.cm.binary)\n",
+        "\n",
+        "  predicted_label = np.argmax(predictions_array)\n",
+        "  if predicted_label == true_label:\n",
+        "    color = 'blue'\n",
+        "  else:\n",
+        "    color = 'red'\n",
+        "\n",
+        "  plt.xlabel(\"{} {:2.0f}% ({})\".format(class_names[predicted_label],\n",
+        "                                100*np.max(predictions_array),\n",
+        "                                class_names[true_label]),\n",
+        "                                color=color)\n",
+        "\n",
+        "def plot_value_array(i, predictions_array, true_label):\n",
+        "  predictions_array, true_label = predictions_array, true_label[i]\n",
+        "  plt.grid(False)\n",
+        "  plt.xticks(range(10))\n",
+        "  plt.yticks([])\n",
+        "  thisplot = plt.bar(range(10), predictions_array, color=\"#777777\")\n",
+        "  plt.ylim([0, 1])\n",
+        "  predicted_label = np.argmax(predictions_array)\n",
+        "\n",
+        "  thisplot[predicted_label].set_color('red')\n",
+        "  thisplot[true_label].set_color('blue')"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "colab_type": "text",
+        "id": "Zh9yABaME29S"
+      },
+      "source": [
+        "### Проверка предсказаний\n",
+        "\n",
+        "Matplotlib нам дает возможность посмотреть наше предсказание графически:"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "HV5jw-5HwSmO",
+        "colab": {}
+      },
+      "source": [
+        "i = 0\n",
+        "plt.figure(figsize=(6,3))\n",
+        "plt.subplot(1,2,1)\n",
+        "plot_image(i, predictions[i], test_labels, test_images)\n",
+        "plt.subplot(1,2,2)\n",
+        "plot_value_array(i, predictions[i],  test_labels)\n",
+        "plt.show()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "Ko-uzOufSCSe",
+        "colab": {}
+      },
+      "source": [
+        "i = 12\n",
+        "plt.figure(figsize=(6,3))\n",
+        "plt.subplot(1,2,1)\n",
+        "plot_image(i, predictions[i], test_labels, test_images)\n",
+        "plt.subplot(1,2,2)\n",
+        "plot_value_array(i, predictions[i],  test_labels)\n",
+        "plt.show()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "colab_type": "text",
+        "id": "kgdvGD52CaXR"
+      },
+      "source": [
+        "Давайте сделаем еще несколько предсказаний - "
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "hQlnbqaw2Qu_",
+        "colab": {}
+      },
+      "source": [
+        "\n",
+        "num_rows = 5\n",
+        "num_cols = 3\n",
+        "num_images = num_rows*num_cols\n",
+        "plt.figure(figsize=(2*2*num_cols, 2*num_rows))\n",
+        "for i in range(num_images):\n",
+        "  plt.subplot(num_rows, 2*num_cols, 2*i+1)\n",
+        "  plot_image(i, predictions[i], test_labels, test_images)\n",
+        "  plt.subplot(num_rows, 2*num_cols, 2*i+2)\n",
+        "  plot_value_array(i, predictions[i], test_labels)\n",
+        "plt.tight_layout()\n",
+        "plt.show()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "colab_type": "text",
+        "id": "R32zteKHCaXT"
+      },
+      "source": [
+        "## Использование полученной модели\n",
+        "\n",
+        "Давайте возьмем одно изображение из тестовой выборке и посмотрим предсказание нейронной сети - "
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "yRJ7JU7JCaXT",
+        "colab": {}
+      },
+      "source": [
+        "\n",
+        "img1 = test_images[1]\n",
+        "\n",
+        "print(img1.shape)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "lDFh5yF_CaXW",
+        "colab": {}
+      },
+      "source": [
+        "# Add the image to a batch where it's the only member.\n",
+        "img = (np.expand_dims(img1,0))\n",
+        "\n",
+        "print(img.shape)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "o_rzNSdrCaXY",
+        "colab": {}
+      },
+      "source": [
+        "predictions_single = probability_model.predict(img)\n",
+        "\n",
+        "print(predictions_single)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "6Ai-cpLjO-3A",
+        "colab": {}
+      },
+      "source": [
+        "plot_value_array(1, predictions_single[0], test_labels)\n",
+        "_ = plt.xticks(range(10), class_names, rotation=45)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "colab_type": "text",
+        "id": "cU1Y2OAMCaXb"
+      },
+      "source": [
+        "`keras.Model.predict` возвращает список списков — по одному списку для каждого предсказания в батче. Нам нужны предсказания только для одного изображения:"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "2tRmdq_8CaXb",
+        "colab": {}
+      },
+      "source": [
+        "np.argmax(predictions_single[0])"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "hcSnl7L5FzTA",
+        "colab_type": "text"
+      },
+      "source": [
+        "Нейросеть при хорошо подобранных параметрах должна была выдать корректное предсказание\n",
+        "\n",
+        "\n",
+        "Реализуем одинаковые смети в разном стиле:\n",
+        "- model1 - линейная модель через список\n",
+        "- model2 - линейная модель через добавление слоев по очереди\n",
+        "- model3 - модель через функциональное описание\n",
+        "\n",
+        "У всех 3-х сетей последний слой линейный (это не правильно для классификации и сделано, что бы модель была совсем простой)\n",
+        "\n",
+        "\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "pyurjN_EJN9P",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "# заполняем модель списком\n",
+        "model1 = keras.Sequential([\n",
+        "    keras.layers.Flatten(input_shape=(28, 28)),\n",
+        "    keras.layers.Dense(128, activation='relu'),\n",
+        "    keras.layers.Dense(10, activation='softmax')\n",
+        "])\n",
+        "# заполняем модель , добавляя слои последовательно \n",
+        "model2 = keras.Sequential()\n",
+        "model2.add(keras.layers.Flatten(input_shape=(28, 28)))\n",
+        "model2.add(keras.layers.Dense(256, activation='relu'))\n",
+        "model2.add(keras.layers.Dense(10, activation='softmax'))\n",
+        "# Заполняем модель, формируя граф передачи тензоров\n",
+        "x_input = keras.layers.Input(shape=(28,28))\n",
+        "x3 = keras.layers.Flatten()(x_input)\n",
+        "x3 = keras.layers.Dense(256, activation='relu')(x3)\n",
+        "x_output = keras.layers.Dense(10, activation='softmax')(x3)\n",
+        "model3=keras.models.Model(x_input,x_output)\n",
+        "\n",
+        "model1.compile(optimizer='sgd',\n",
+        "              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),\n",
+        "              metrics=['accuracy'])\n",
+        "model2.compile(optimizer='rmsprop',\n",
+        "              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),\n",
+        "              metrics=['accuracy'])\n",
+        "model3.compile(optimizer='adam',\n",
+        "              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),\n",
+        "              metrics=['accuracy'])\n",
+        "\n",
+        "hist1=model1.fit(train_images, train_labels, epochs=5)\n",
+        "hist2=model2.fit(train_images, train_labels, epochs=5)\n",
+        "hist3=model3.fit(train_images, train_labels, epochs=5)\n",
+        "\n"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "N8SMebNEMi37",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "plt.plot(hist1.history['accuracy'],label='model1 acc sgd')\n",
+        "plt.plot(hist2.history['accuracy'],label='model2 acc rmsprop')\n",
+        "plt.plot(hist3.history['accuracy'],label ='model3 acc adam')\n",
+        "plt.title('точность сетей от эпох')\n",
+        "plt.xlabel('эпоха')\n",
+        "plt.legend()\n",
+        "plt.show()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "iD4oM4JhPHWn",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "stCJv8cZMQZf",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "# сохранить модели на диск.\n",
+        "model1.save_weights('model1.h5')\n",
+        "model2.save_weights('model2.h5')\n",
+        "model3.save_weights('model3.h5')\n",
+        "# прочитать модели с диска (перед этим, нужно положить их в каталог для работы виртуальной машины Колаборатории):\n",
+        "# model.load_weights('model.h5')"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "tBd6kDX9qCZ1",
+        "colab_type": "text"
+      },
+      "source": [
+        "Выгрузим на локальную машину нашу модель"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "2mIfT7C773y4",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "from google.colab import files\n",
+        "\n",
+        "files.download('model1.h5')"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "rGZ0VmTDWiSi",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "x3"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "RP9nm6V6qS7q",
+        "colab_type": "text"
+      },
+      "source": [
+        "Сделаем предсказание на тестовом изображении"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "QvkvodqxWmVn",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "y_pred = model3.predict(test_images)\n",
+        "y_pred_arg = np.argmax(y_pred, axis=1)\n"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "b2WJFW5kqagU",
+        "colab_type": "text"
+      },
+      "source": [
+        "Отобразим значения на выходах сети (10 выходов - 10 точек графика)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "EF18AOsTbsih",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "N = 10 \n",
+        "plt.plot(y_pred[N,:])\n",
+        "plt.title('объект ' +class_names[test_labels[N]]+ '  No-'+str(test_labels[N]))\n",
+        "plt.xlabel('номер выхода сети')\n",
+        "plt.ylabel('значение на выходе')\n",
+        "plt.show()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "K0cGPgqBc-sb",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "test_loss, test_acc = model3.evaluate(test_images,  test_labels, verbose=2)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "f_dWDPIIuE6e",
+        "colab_type": "text"
+      },
+      "source": [
+        "### **Ансамбль сетей**"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "3cJ-0N8Es0gB",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "input1 = keras.layers.Input(shape=(28, 28))\n",
+        "x1= keras.layers.Flatten()(input1)\n",
+        "x1 = keras.layers.Dense(128, activation='relu')(x1)\n",
+        "x1 =keras.layers.Dense(10)(x1)\n",
+        "\n",
+        "model11 =keras.models.Model(inputs=input1,outputs=x1)\n",
+        "\n",
+        "\n",
+        "x2= keras.layers.Flatten()(input1)\n",
+        "x2 = keras.layers.Dense(256, activation='relu')(x2)\n",
+        "x2=keras.layers.Dense(10)(x2)\n",
+        "\n",
+        "model22 =keras.models.Model(inputs=input1,outputs=x2)\n",
+        "\n",
+        "x3= keras.layers.Flatten()(input1)\n",
+        "x3 = keras.layers.Dense(256, activation='relu')(x3)\n",
+        "x3=keras.layers.Dense(10)(x3)\n",
+        "\n",
+        "\n",
+        "model33 =keras.models.Model(inputs=input1,outputs=x3)\n",
+        "\n",
+        "\n",
+        "out_all = keras.layers.Average()([model11.output,model22.output,model33.output])\n",
+        "out_all = keras.layers.Softmax()(out_all)\n",
+        "model_all=keras.models.Model(inputs =[input1],outputs =out_all)\n",
+        "model_all.compile(optimizer='adam',\n",
+        "              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),\n",
+        "              metrics=['accuracy'])\n",
+        "\n",
+        "\n",
+        "model11.load_weights('model1.h5')\n",
+        "model22.load_weights('model2.h5')\n",
+        "model33.load_weights('model3.h5')"
+      ],
+      "execution_count": 141,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "uyUsa1Afs6cW",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 655
+        },
+        "outputId": "26926572-a1e3-4487-8ac4-e9d46236eb0d"
+      },
+      "source": [
+        "model_all.summary()"
+      ],
+      "execution_count": 78,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Model: \"functional_17\"\n",
+            "__________________________________________________________________________________________________\n",
+            "Layer (type)                    Output Shape         Param #     Connected to                     \n",
+            "==================================================================================================\n",
+            "input_3 (InputLayer)            [(None, 28, 28)]     0                                            \n",
+            "__________________________________________________________________________________________________\n",
+            "flatten_7 (Flatten)             (None, 784)          0           input_3[0][0]                    \n",
+            "__________________________________________________________________________________________________\n",
+            "flatten_8 (Flatten)             (None, 784)          0           input_3[0][0]                    \n",
+            "__________________________________________________________________________________________________\n",
+            "flatten_9 (Flatten)             (None, 784)          0           input_3[0][0]                    \n",
+            "__________________________________________________________________________________________________\n",
+            "dense_41 (Dense)                (None, 128)          100480      flatten_7[0][0]                  \n",
+            "__________________________________________________________________________________________________\n",
+            "dense_43 (Dense)                (None, 256)          200960      flatten_8[0][0]                  \n",
+            "__________________________________________________________________________________________________\n",
+            "dense_45 (Dense)                (None, 256)          200960      flatten_9[0][0]                  \n",
+            "__________________________________________________________________________________________________\n",
+            "dense_42 (Dense)                (None, 10)           1290        dense_41[0][0]                   \n",
+            "__________________________________________________________________________________________________\n",
+            "dense_44 (Dense)                (None, 10)           2570        dense_43[0][0]                   \n",
+            "__________________________________________________________________________________________________\n",
+            "dense_46 (Dense)                (None, 10)           2570        dense_45[0][0]                   \n",
+            "__________________________________________________________________________________________________\n",
+            "average_1 (Average)             (None, 10)           0           dense_42[0][0]                   \n",
+            "                                                                 dense_44[0][0]                   \n",
+            "                                                                 dense_46[0][0]                   \n",
+            "__________________________________________________________________________________________________\n",
+            "softmax_2 (Softmax)             (None, 10)           0           average_1[0][0]                  \n",
+            "==================================================================================================\n",
+            "Total params: 508,830\n",
+            "Trainable params: 508,830\n",
+            "Non-trainable params: 0\n",
+            "__________________________________________________________________________________________________\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ET_usPF9ejrP",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "from tensorflow.keras.utils import plot_model"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "T8L3JBiWewft",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "plot_model(model_all,to_file='new_model-all.png')"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "9nqTRLVhts6i",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 54
+        },
+        "outputId": "1b90ce31-6ebc-4288-c9b2-d7c041dc69f4"
+      },
+      "source": [
+        "predictions_single=model_all.predict(img)\n",
+        "\n",
+        "print(predictions_single)"
+      ],
+      "execution_count": 144,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "[[2.2140996e-22 8.1202782e-22 1.0000000e+00 3.1645210e-20 2.3391790e-30\n",
+            "  5.8572821e-21 1.6427111e-14 1.5645926e-35 2.9935506e-19 2.2867838e-34]]\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ZRejlxRetwpq",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 300
+        },
+        "outputId": "269b2652-2623-494a-d0d5-390d23ec5066"
+      },
+      "source": [
+        "plot_value_array(1, predictions_single[0], test_labels)\n",
+        "_ = plt.xticks(range(10), class_names, rotation=45)"
+      ],
+      "execution_count": 145,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "image/png": "iVBORw0KGgoAAAANSUhEUgAAAWAAAAEbCAYAAADkhF5OAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAADh0RVh0U29mdHdhcmUAbWF0cGxvdGxpYiB2ZXJzaW9uMy4yLjIsIGh0dHA6Ly9tYXRwbG90bGliLm9yZy+WH4yJAAAdhUlEQVR4nO3deZglVX3/8fd3ZhhmQIcdQRBHYRgBBQQJIqDIIiAoKpuoAUWQNcqiDj830AACiUnEDWRRGUNEUEFRUTGg4BIFFTXihktcflHQqAm4ISd/fM+lazo90D13OU3zfj0Pz9yNPlV1qz51tqobpRQkSaM3q/UCSNKDlQEsSY0YwJLUiAEsSY0YwJLUiAEsSY3MmcqH11577bJw4cIhLcrMdMstcPfdwy1jzhzYaqvhliFpxd188813lFLWGf/6lAJ44cKF3HTTTYNbqgeBiOGXcffd4NciTV8R8eOJXrcLQpIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaMYAlqREDWJIaiVLK5D8ccTvw4+EtzjLWBu4YUVmWPT3Kt2zLnqllP7KUss74F6cUwKMUETeVUp5g2Q+e8i3bsh8MZXfZBSFJjRjAktTIdA7gd1r2g658y7bsB0PZ95q2fcCSNNNN5xqwJM1oBrAkNWIAr4CIiNbLoNGIiIf4fQsgImbVfwe2PxjAUxQRUWrHeUTsGREbtFiGmVhWLW/NzuPFoyx7gmVZBCwFth5ReXNGUc5UdL//iJg7inKmo4hYA1hQnw5sf5gxAdz7AiNifkSsMqxyOuH7VOB1wH8Pq6yJjDsBPDMiVh9RWbtGxObDKquWMQvYNSLOjYijgSURseD+/r9hKaV8D/ghcEpEbDnMsiJiNWC7+niPYW/ryRj3/b8IOKRXCxzU36//LgIOHWbAD8DO5P74emDpwFpGpZQZ8x/wLOCTwOeBvwZWHVI5+wM/B55Zn89tsK77AP8GrD2Csk4Avgw8akTr9lXg18Aj6vOVRrxtA5jVeX4W8AFgyyGWuSmwBLgK+Paw9t0VXLYdgGuAhw5yG9d/dwE+CHwJOAhYufX63scyfxr4DfDkQf3NmVQD3gw4CXgtcAYZwM+v7/V1pprg//8w8CvgpQCllD9FxOx+ypji8uwIXAS8sZRyR0SsPMSydiW3406llB9GxOMjYvcBl9Ft5q5M7ug3Am+MiDmllD8Psrz7W5aS7omItQBKKacA3wJeP+iacG/dSynfBTYA/gp4P/DHQZazoiJiG+B84BfAnYP6u6WUEhE7A+cBFwO3AE8GDp4uNeEJjvtzye/mBRHxmIGUUZP9AS0iNgHOBGaXUvavr+0AXAYcUkr5XB9/e5k+X+AvwDeB24GvAV8ppRxW359dSvlLXytzP8tQn69Krtv6pZRtB1n2BGUtAk4hz/x/IZvJvwcuKaW8b5Dl1ZPo70opP6vP/wWYU0o5MCJ2IWtHn+i3zEku1/HA9sBPgItKKbdFxGnAFuSJ7ysDKKO77i8GnkqefBaRLYBLSyk/j4i1gV+VERys47//+tqRwGFkBefLg1qOiHglWdM/tZ54Xww8G7gQ+OAoT7wTLFv3u9kfmAPcWUq5OiL+DlgfOBF4DvCHUsp7VqScB2wNeNzZ6Udks3X12n+2SinlC8C/kHc9WmGdL+HlZBDtRQ7MLAK2AR4bEVfWzw41fCNi94jYF1gDeAFwS0Rc1Qvffmvh48o6JiKeA9xFhsLDgSvIbp7Pkjtk3zrlnUjWtC6JiPNrX+NLgNkR8RXgH4HvD6LM+1MD5yDg/9V/z4yInUspp5H72on9tjoiYkFn3XcC9gOOLaW8i+xa2hA4ICJeRY41DK2V09VZpiMi4rV1v18KXE62Lp8wwH7g7wBPjIjNSyl/LKW8HZgN7AQMpIa5ojrb4aXAK4GtgMMj4t2llFcAvyT3yVeQ2bPCBT3g/mOs5r4TcAhjfbEvJy8xPAXYA/gp2XTut7xNgA/Vx2eQ/XQr1+crATeQARVDXOeTgc8AbwWuJ/vlHgJcUJ/PGmBZx5N9vptM8N7z6w73mAGW9wLghvr4TLKpe3Hn/QOAhUPcttuRAbhy3aZ/B6xHdjFdS/YBfxLYuX6+r353YGMy3OcBqwNXAjcDT+x8Zh8y8L7AEPuel7N8L6vrvSvwdeCk+vqSuq9vswJ/s3fMbgvsBmxUt/eZwKvJrpfFdV++EnjNKNd5Ocs8D/hQ7zgA5gL/DCypzx8DrNtXGa1Xso+NsyfwjRqInyabLNSD5ss1mPaqr00pnMYHKfBI4BLgzcDVnfB9ziCD7z6WZ9PO+i0BPk62XmaRU2PeRh2wGkBZa9eDb4saRs8lm1q7kE3yTwOP67OM8dt3y3pAHkee3FYDbiMHZ4Y+AAc8jxwE2qc+n1tD8hOdz9xWw2KVAZT3qBq8W5Mn997+dRKwcedzsxjBYBzLDjjOImt2QVZoPlqDcnZ9//ip7mud8N0b+C7wGrJP+QlkK3IJ8EWy5r8ZecI9p1fmqP6bYL9chaz07NN5bW/gHwZW5ihXcJA7DNksOrjz2jXA2+vjU4G3AE+a6gHc/RKAg+sOMZeseX4F2LC+dwRZa+nrDDiJ5VkHeCg5AHAx8LHeOpEngAXjd5w+d7o5dV0vI0f+LwQuJU9sKwGr97k+3e27GrCg851eAuxdn/9tPSjXGeZ+1Hl8Bjnwd2B9vhE5G+GJwNPJE+8GA1z3h9YyLwIWkrW/peTJbtEw96n7WL49yRPDFeRJ+ArqDB/gaGCPPv72FmTLaeNazi/q9t2ts5+vUd/7FvDYEa9797vZgaz0LCC7HG8DnlTfO5KsJMzr57i7t6wWX/QKbJy5wOL6eCGwbg3YgzqfeSTwnvp4JeAfyLPoCtVYyNrYN4BH1+d7kE3R68ia0DeBLYa83lsDZwNr1gC+gVpDAl5ENg/XG9BOtx/ZnbO4lnsAddoZcFQ9GOcMcN1eTjY1v0Z2a2xI9qe9DXhDDbyB1OonsSzHk7XtS8luq2fX148GPkeeePsKhIkOVuARZPP7vLpfb1q3yXGD3Nb3sUzbMNat8lDgi/XxbjV0eiejw4Bbe8fCJP/2xmQFYb/Oa5sCOwI31edLgD8Bu9bnC8hxgKEeV/ez3H9DtqDfQ3aHPI08Af8MeDt5cth8YOW1WtEpbJC1yOkpR9Yw+hqwKjnN7P/3vixyBPlGao2JrMlNuvY0LoweR9ZuN6jPn0L2h/X6Cg+g01Qc4rpvVw/+xeQgwPlkn9TbgH8f1I4KHEPOnT4K+DOwY2+bAC8kT0R97XRk399fkTWsXckm/wJykOv8Ws72ZP/jR/oNvCks18b1u96oPj+kHoAH1Ofr0m8/Xye4yDnV7yIH1h5Gdvm8rn6njya7JB4+gvWeU7/3f+18373vZF7dx38AvLtun0nva2TQfhN4U92vju68dwRjLdVdash1+75HOud73HIvquu6Htn9sHs9/hbVY3BzBlwpaLKiU9ggc8nawP5ks/iPwKmd919GnpnPJc9MvT68vvplyYB/C1kzOY/sB/oAnRr3kNd7/d461AP2snrAPLruFAfSx0URLHuyWZcM9dWAw8k+3tmd9/6e/sN3rxpqh5I13YOBpZ33n0anhjXMg5D/2+Uyl5wtsxNjXTuvB/6HOobQZ3lrkaP9ryFPQDeQg45nk/PJ16+fOYtstQ295jtu2V5CnvB2I6fX0fn+F5GDy5M+AdWQ+irwjPr8BWTQb12f70zOpX0z2YJ74kTfy4jWf1a37Hp8fXTcZ04DjhjaMox6pVdgIx1HjgYvJpv+Z5ADQ72DZUfgscDj+/0iyf6nz9THzyD7kresz08Fzh72zkLWAi8gZ3MsqIF1NgOqcY8L3+eRNa4ltcxrOtv1ZLKG1lcgkK2H7wHbdV7bmmzibd957WLqjJVhbd9x676QsRbOOXUf63W57FdDacM+y9u3bttdyZbbJ4B963vr1IP7SvICjDUZzVWN409AC4BjydrvPWQ//KfJ0f7zmOJAGHkiu6fz/OvkoPHX6nc8m6xEnErt72/1Xyd4N2Ksr/tKaldmfX4GcPrQlqHlBpjsRqpf4DH1+cuAfyL7ZXYi++lWqMY7wc44i+xgv3zc689jwFOvJloGsu96HnlCeRM59elY8iqhtw643APJLptN6oH2TcYGxA6sB87CAZRzEvCy+nhO/Xc18mR6FtkX/EKyz7GvwJvCdj6J7ML5SC1/PtnUfi/Z2riFCabgTbG8fevf6XVlbADcBFzQ+cxa5JS390016AawDXYjKy8Pq8+PIbsDDidP+gtZwZM+OVPgB+RA3uvqa3PJGRAnL2+ZRvVfXffd6+MT6/f03nrMrU62dj9BnpRvoY4/DWVZRr3yk9g486jXnDPWL7cJWQtclzxjnwi8g5wMvc8AytyUOt2HPENfBnysPt+sPu9r6tUkluGYuhNcADylvrYr2df9PbKLZY0BlbUd2RQ+rj5ftx4s765hcBMDGnQiu3JO773GWLNvDeBV5CyAixjRwAvZwngvORXsMWSfX29e5+Pr9u6rtUH2IV5HrfV39q2dyZv7HN/57EhqvuOW73iyxvvaum/1jrOj636x4wDK2A24m2Vnmrx4fAC3+I/s57+HnNnzznqMP7buh5eQFbGjyIHugVe6llmW1htjgo2zN1nLPZTsF1yHHKg4k7F+pVXI5nFvZsQKnUXrhn5kPQhfRJ0xQZ4EvgBcXZ8PdS4mefnlN6iXuZJn4hd03l9Mf32+i8jpVLuStc/16453HbBV/cxqZItij94BOaB127WG+7adbd6rCR9PnvyGfjOjGv5bkTX7ixnr53xkDaM3D7CsNcjWy+PqvnQaWbu8jLyK8CfA64e9zstZtt3JmR2rkld4/Qd5mXmv//1IBjen/OnA9+vjTchpZ09rsd7d/aD+27vKc2l9vhJZubuCTnfZ0Jen5cZYzgaaVYPhv6nNt/r6LuRAzraD+ALGvbYT2e91KGO1lVfXg6avuZ/LWYYn0+n/qgfCq+vj2WST/IMMZtL/PuRI7oeATwE/Js/2G5KDTW9hiDMO6oF+GtnPum3n9efW5RraVLPlfNdH1hC8d444WRu+jjyp9z+3M8P+ZLIZ+1OyZXEE2eTvdbvcO2NnmP+NXx+yxr0+ObXs2vraUnI62MC/C3IA9i6yy6fvQc0BfTe9EN6frAk/pfP+pdRpiCNZntYbZPxOQtYaDiWvwDmDrKH0DpQDyM77vmukZI33AuB08kqsx9UQPpmch/rxYR0gZB/r7YxdqbcPOSK+Zeczn6T/K872Ii9m6O5gp5H3M9iM7Ho4tQbE8Pq5sv/zdeRskjfVbf7tYQb/uPIPIEf7e7X9o+r27c58GOjsA/Iqwh0Yd4tFsom7xyCCfhLL0D2uFgObdZ6/hrEuqCPr8dZXv/d9LMduowy1yWyXTgg/n5x6+eoayLcywgthmm+McRtmU8Zu/DKLbLKdS9ainkJeP/8WpjhPsrOxe/8eSfZzHkz2J3+jHiybk/eRuJQhXH9PzoV9Sn38HHKgYi9yEvzpZPfDM8hR+K/0cwIgazr3MDbqPq/z3uvJvr/55MnnFfRxQcckl2d+DbzTagBuOsSyVuk8PoHs1zyVrOUeVV8/grz0dYcR7t8Hkt1dQwm6+yj3pHpcXUNOAVuTsf7Pt5Aty/VHsBwtBtwmLLPmSy8PDqzHyrsYYPfbpJZv1Btk3EZYjxwQmkX2Ef0I+MfO+w+pO8yF5A3Q96RTm5tCOQvH/c0TgKd3XnsWOfuh1/0wlPs71APhRsauPjqQHP1/MjnqfDRZ876cWlvrs7x96sllrfq8WxO7nrGpe9P2JtgruM7/RNa6twcuq6+/vJ7U3tkJ4UNHccCRTf4TyGb4qC+x3YOxAeXTqfe3qCF8CNklMtQB5ob7QrcFsDfZGlkMzO+93wnhvRliK3C5y9h4Ax0xboOcTjYBNup8Zj7ZX9ebyL1MbXYSZexLTn9ZmZzS9UbyyqsrO595GFnr7es+B5PcEY4j+2KfXJ8fVEO4d038fAbQ9ztux7uNOoOCsSb3VYz4Llsj2J96U7+e1dmWG9RQvp68mOU0csrdUSNcrvl1GUZa861lb0NOLTud7JPuff8jq/k3WOfx/d4nkf3+Z5Gtnt27n51slgxlWafBxlqXHJV+an1+dt1IE3YzTGVjMXZjj8X1QPxkJ8CvJ5scs8kBoc8x/Bvr9H5i5+hxIbw/ORI9lBHiCUL40LqNh7q+I96Pxk/9ml9PuhuStd9X1dcPJ2vBM2bdO9tgfPAE2cX0JfImTr19/wiyJbZGy/AZ4nZYu/7ba1m/rz4/geyGmUXOemi+7iP/FdbOT7CU+u8vI+Kn5A/+/bmUsiQizgQ+FRFPK/XXEXp6/98kynkaOeBxIzmQdww5fW0zMpT3JWcGXEJ+SS8upfxyEOu4nOXZEnhlRFxRSjmvbofXRsQbSikfiIg/k33CA1dK+Xj9hYfPRsTbybmuQ13fBv5IDqb8ISLmkVeg7UTORV2TvJH4JmR3z74zbN2BZW4i/jIyeH9EjqGcS570j42Ih5FdboeUUv6r0aIORT2m1gF+GBGHlFI+HBG/Bm6PiEvJE86+JX9u6iDyhP2Lhos82gCOiJVLKX+sj59EbqwvlFJeV++8f3j9UYZXRcRKZL/oz5b/F5dbzm7kvSNOJGtG25BN00cB20fE70opPwX2qD/vM7uU8rsBrGKv/GVOMvXx1yPiq8CeEXFPKeUdEVGAN0XECaWUDw+q/InUEJ5NTm97fCnl34dZXgO/IZvYf0/Op76WvKjkVnI+6rvJ6VBnllJG8ssao1J/Aeau+ngnctbH+WQIv5ts8fySnH44m5ze+d02SztctUJ3OPCuiHhhKeUjEXEneZHNS0opd0fEYWSr6IamC8sIfxMu8ufTr6ReOkxOu/o+ORH86nq2OokclHtHKeWzfZS1HdnX9fn6O2PPJX/HbHXy8s8bgetLKT/uZ53uo/w5pZS76+M9yebu0vr8peS9EN5fSrmm7izXllL+YxjLMsGy3XuwzjQR8RByOuEjgKs6J/v3AB8upXyg5fINQ0TsQw60nUPW7o8Fzin522XrkLdXfCxwwqj2sekgIvYiB/D3I0/Cp5HdkLeTg7MHTYdKyEh/lDMiljB2m7tTSynfjoijyIPmkzWEXwlcU0r5+gDKm1WbG4vJ+zncSV7xtTF5ArisDPh33CJiD7Kf8RZy8A9y2tvFpZTL62cuJmsnry2lfHyQ5WtZEXEgObXwoFLKba2XZ5Dq7wOeQd5v4aqIeAQ5n/fzpZSj62fWIrtjHkUeA38ppdzTapmHoXec18eHkONHb4qIA8jxpaeXUm6sre61gFumy8loJF0QvR97LKWcHRF3kHMP30NOxr8cKMB+9cclzxlUub0vpZTyndoHdDDZT3grcN0Qwncv8iKOpeTg4l7kpY0XA39dt8P7yXuwziPnhGoIImJ98vs+kvzllJkWvuuRFw0dUUr5ckSsWkr5SUQcCyyNiONLKW8tpfwqIs4ip1Y2+5XhYYmIrYCzIuKAUsqdZC33DoBSyhURcQ9wVUQcUUr5UMtlncjQA7gXvrVv6rellIsif2b77Ij4RSnl5oi4guybGlq/VA3hK4Bnknek+tUg/35ErEmONO9X+502IpuFK5MhDPCGiNiPvCfBs2fiQNA08hvyYpP9ZlqfbzV+0PEVEbELOaj0E2BJRKxTSjm1lPLrhss5VKWUWyLibuCyiHg2OdB2R+f9D9YxmXMj4lPAXdOpBTCSLoiI2Ju84/9hpZQb6mvHkk3140op/9btNx3ysqw0rJpA7Y87h5xj+buI+Gfgs6WU8+v7W5B3xLp2hoaCRqSGyknkzex7g443kq27Z5Ah9CzyRH97q+Uclrr+s3qt2Ij4AHk/i9vqv7eSJynIKaZ3lVJ+32JZ78vQAzgiNiBrhkeWUr5UmwwLyNrJc8hBgycB/zOdzkwrqp5sziVH5B8OPL+U8vteS6Dt0mkmuY9Bx0vIbrBrZ+I+1z2WImKD3lTViDif7HI6n5zxsoCcD/6q6dLnO97AAzgiNicvbbysPl+NvO/oXeS0s03I664vL6VcGBGPKqX8cKAL0VhE7E5e9LFenRYzr5Tyh9bLpZmvM+h48ExsZY0L3+PJm+ncTP7O3Lci4m3kBU/PrJ+ZW0r5U7slvm+zBvnHImJT8qdMVu29Vkr5LXnhw1zy8t89yLmo29b3Z1T4ApRSriUvPb0uItY1fDVsEbF+RJxATrc6bCaGLyxzscmzyHtNH09e8XdUROxQSjkOmBURvb7foXdr9mNgg3B1qtfVwBWllIvra/Nrv8tS8nei/hIR25NXpZ0yqLKno3rhw1zgmoh4Qr4085qDmjZm+qDjvSLiMeRso0vrIP4PyB9xeG6dSbVvRDy8Hm/T+pgbSA24dju8l7z08bcRsSNA7ft8NHnf3fUiL8c9gZy3eE09Q81YpZSryPs93GP4aphKKb8vpXx0JoZv5OXTXb8jW9HPr7Xe/yLvM/0n4Jm1y+/no17OFdF3H3BEzCcH2S4ka8AnU7sbyHvuXkVODD+jfn69Usp/Oigl6f7U2u63yJ+xv7WU8s76+jzyqtrdyMvLv1AHJeeVUu5Y7h+cZgYyCNcL1fp4MdkxPocM4O+WUr7ZvVpFkiYjIjYk7+nxETJsf0FeYvyvpZQ7I+I48oKbV5ZSvthuSVfMQLogOuE7q5TyHbLP927ygoPV62cMX0lTUvKmWV8ib6j1dPJS6yOBj9WxlVvIG29N+aZd08FAZ0F0Lv39HhnC88g+mTUGWY6kma8zRnQKOZi2NvCf5M2Fvk3+jttzyV/5+EmThezTUC/EiIhFcG8gS9KU1BBeibyW4NHk9NVTSilX1mmvt5cH8H2NR3o3NElaEXVs6TPA20opf9t6eQZloF0QkjQMdWzpFGB2RKzSenkGxQCW9EDxRXIwbsawC0LSA0bMsF90MYAlqRG7ICSpEQNYkhoxgCWpEQNYkhoxgCWpEQNYkhr5X43UgwLGIwMHAAAAAElFTkSuQmCC\n",
+            "text/plain": [
+              "<Figure size 432x288 with 1 Axes>"
+            ]
+          },
+          "metadata": {
+            "tags": [],
+            "needs_background": "light"
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "OnUoZIIgt10d",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 35
+        },
+        "outputId": "0b725910-0903-4066-bc05-be22a8794c79"
+      },
+      "source": [
+        "test_loss, test_acc = model_all.evaluate(test_images,  test_labels, verbose=2)"
+      ],
+      "execution_count": 146,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "313/313 - 0s - loss: 1.6589 - accuracy: 0.8024\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "pZyy2UhoFzTB",
+        "colab_type": "text"
+      },
+      "source": [
+        "## Практическое задание\n",
+        "\n",
+        "  1. Попробуйте улучшить работу нейронной сети(берем простую линейную сеть, которую разбиращли на уроке: меняем число слоев, число нейронов , типы активации, тип оптимизатора) обучавшейся на датасет Fashion-MNIST. Постройте 10-15 вариантов и сведите результаты их работы в таблицу  Опишите, какого результата вы добились от нейросети? Что помогло вам улучшить ее точность?\n",
+        "\n",
+        "  2. Поработайте с документацией TensorFlow 2. Найти 2-3 полезные команды TensorFlow, не разобранные на уроке (полезные для Вас).\n",
+        "\n",
+        "  3. (*)  Попробуйте обучить нейронную сеть на TensorFlow 2 на датасете imdb_reviews .Опишите, какого результата вы добились от нейросети? Что помогло вам улучшить ее точность?\n",
+        "    \n",
+        "    \n",
+        "</ol>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "P9AsWezGVpJw",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "oNZ6hZcMFzTE",
+        "colab_type": "text"
+      },
+      "source": [
+        "## Дополнительные материалы\n",
+        "\n",
+        "<ol>\n",
+        "    <li>www.tensorflow.org/api_docs</li>\n",
+        "</ol>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Q64Z2Kr_FzTF",
+        "colab_type": "text"
+      },
+      "source": [
+        "## Используемая литература \n",
+        "\n",
+        "Для подготовки данного методического пособия были использованы следующие ресурсы:\n",
+        "<ol>\n",
+        "    <li>https://www.tensorflow.org/</li>\n",
+        "    <li>https://www.tensorflow.org/tutorials/keras/classification</li>\n",
+        "    <li>Singh P., Manure A. - Learn TensorFlow 2.0 - 2020</li>\n",
+        "    <li>Шакла Н. — Машинное обучение и TensorFlow 2019</li>\n",
+        "    <li>Википедия</li>\n",
+        "    \n",
+        "</ol>"
+      ]
+    }
+  ]
+}
